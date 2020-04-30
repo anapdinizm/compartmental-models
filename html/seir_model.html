@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Modelo SEIR</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./src/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .checkmark {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 25px;
+          width: 25px;
+        }
+        .checkbox-healthy {
+          position: relative;
+          padding-left: 25px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          font-size: 16px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+        .checkbox-healthy input {
+            display: none;
+            }
+        .checkbox-healthy span {
+            border: 3px solid #7e8a94;
+            float: left;
+            height: 20px;
+            width: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        /* Style the checkmark/indicator */
+        .checkbox-healthy:hover span,
+        /* When the checkbox is checked, add a blue border and a blue background*/
+        .checkbox-healthy input:checked + span {
+            border: 3px solid #B0E0E6;
+            background-color: #B0E0E6;
+            }
+        /* When the checkbox is checked*/
+        .checkbox-healthy input:checked + span:before {
+          content: "✗"; /*"✔";*/
+        }
+        /**/
+        .checkbox-infected {
+          position: relative;
+          padding-left: 25px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          font-size: 16px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+        .checkbox-infected input {
+            display: none;
+            }
+        .checkbox-infected span {
+            border: 3px solid #7e8a94;
+            float: left;
+            height: 20px;
+            width: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        .checkbox-infected:hover span,
+        /* When the checkbox is checked, add a blue border */
+        .checkbox-infected input:checked + span {
+            border: 3px solid #FA8072;
+            background-color: #FA8072;
+            }
+        /* When the checkbox is checked, add a blue background */
+        .checkbox-infected input:checked + span:before {
+          content: "✗"; /*"✔";*/
+        }
+        /**/
+        .checkbox-exposed {
+          position: relative;
+          padding-left: 25px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          font-size: 16px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+        .checkbox-exposed input {
+            display: none;
+            }
+        .checkbox-exposed span {
+            border: 3px solid #7e8a94;
+            float: left;
+            height: 20px;
+            width: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        .checkbox-exposed:hover span,
+        /* When the checkbox is checked, add a blue border */
+        .checkbox-exposed input:checked + span {
+            border: 3px solid #008B8B;
+            background-color: #008B8B;
+            }
+        /* When the checkbox is checked, add a blue background */
+        .checkbox-exposed input:checked + span:before {
+          content: "✗"; /*"✔";*/
+        }
+        /**/
+        .checkbox-hospitalized {
+          position: relative;
+          padding-left: 25px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          font-size: 16px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+        .checkbox-hospitalized input {
+            display: none;
+            }
+        .checkbox-hospitalized span {
+            border: 3px solid #7e8a94;
+            float: left;
+            height: 20px;
+            width: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        .checkbox-hospitalized:hover span,
+        /* When the checkbox is checked, add a blue border */
+        .checkbox-hospitalized input:checked + span {
+            border: 3px solid #DA70D6;
+            background-color: #DA70D6;
+            }
+        /* When the checkbox is checked, add a blue background */
+        .checkbox-hospitalized input:checked + span:before {
+          content: "✗"; /*"✔";*/
+        }
+        /**/
+        .checkbox-death{
+          position: relative;
+          padding-left: 25px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          font-size: 16px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+        .checkbox-death input {
+            display: none;
+            }
+        .checkbox-death span {
+            border: 3px solid #7e8a94;
+            float: left;
+            height: 20px;
+            width: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        .checkbox-death:hover span,
+        /* When the checkbox is checked, add a blue border */
+        .checkbox-death input:checked + span {
+            border: 3px solid #000000;
+            background-color: #000000;
+            }
+        /* When the checkbox is checked, add a blue background */
+        .checkbox-death input:checked + span:before {
+          content: "✗"; /*"✔";*/
+          color: #F8F8FF;
+        }
+        /**/
+        .checkbox-recovered {
+          position: relative;
+          padding-left: 25px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          font-size: 16px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+        .checkbox-recovered input {
+            display: none;
+            }
+        .checkbox-recovered span {
+            border: 3px solid #7e8a94;
+            float: left;
+            height: 20px;
+            width: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        .checkbox-recovered:hover span,
+        /* When the checkbox is checked, add a blue border */
+        .checkbox-recovered input:checked + span {
+            border: 3px solid #6A5ACD;
+            background-color: #6A5ACD;
+            }
+        /* When the checkbox is checked, add a blue background */
+        .checkbox-recovered input:checked + span:before {
+          content: "✗";/*"✔";*/
+        }
+        .button_width {
+          float: right;
+          width: 20%;
+        }
+    </style>
+    <!-- Custom styles for this template -->
+     <script src="./src/js/plugins/Chart.js"></script>
+</head>
+
+<body>
+    <main role="main" class="container mt-4">
+        <div id="sierModel" class="mb-4">
+          <div class="row">
+            <a href="https://anapdinizm.github.io/compartmental_model/seir_model.html" target="_blank"> <h3>Modelo SEIR </h3> </a>
+          </div>
+          <div class="row">
+            <small id="ref_code" class="form-text text-muted">
+                Código do modelo está disponível no GitHub <a href="https://github.com/anapdinizm/compartmental-models"> neste link </a> sob <a href="https://mit-license.org/" >MIT License</a>.
+            </small>
+          </div>
+         
+          <!--SEIR MODEL-->
+          <!--  <center>
+                <button type="button" class="btn btn-primary" id="calculate_ode_seir">Calcular</button>
+            </center> -->
+            <div class="row">
+              <div class="col-sm-3">
+                <label class="checkbox-healthy"> Suscetíveis
+                    <input type="checkbox" id="check-healthy-seir" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="col-sm-3">
+                  <label class="checkbox-exposed"> Expostos
+                      <input type="checkbox" id="check-exposed-seir" checked="checked">
+                      <span class="checkmark"></span>
+                  </label>
+              </div>
+              <div class="col-sm-3">
+                  <label class="checkbox-infected"> Infectados
+                      <input type="checkbox" id="check-infected-seir" checked="checked">
+                      <span class="checkmark"></span>
+                  </label>
+              </div>
+              <div class="col-sm-3">
+                  <label class="checkbox-recovered"> Recuperados
+                      <input type="checkbox" id="check-recovered-seir" checked="checked">
+                      <span class="checkmark"></span>
+                  </label>
+              </div>
+            </div>          
+            <center>
+              <canvas id="seir_chart" width="600" height="400">Your browser is not compatible</canvas>
+            </center>
+          </div>
+        <div class="row">
+          <h5><span data-translate="simulation_parameters">Parâmetros do Modelo</span></h5>
+        </div>
+        <div class="row mb-5">
+          <form class="col-sm-12" id="control_form">
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <label for="control_initial_population" data-translate="initial_population">População Inicial</label>
+                <input type="number" id="control_initial_population" class="form-control" aria-describedby="control_initial_population_help">
+                <small id="control_initial_population_help" class="form-text text-muted" data-translate="simulation_initial_population_help">
+                    Número total de pessoas de uma região, cidade, estado ou país.
+                </small>
+              </div>
+              <div class="col-sm-4">
+                <label for="control_initial_infected" data-translate="initial_infected">Infectados iniciais</label>
+                <input type="number" id="control_initial_infected" class="form-control" aria-describedby="control_initial_infected_help">
+                <small id="control_initial_infected_help" class="form-text text-muted" data-translate="simulation_initial_infected_help">
+                  Número inicial de infectados
+                </small>
+              </div>
+              <div class="col-sm-4">
+                <label for="control_infection_rate"><span data-translate="simulation_infection_rate">Taxa de transmissão  ( \(\displaystyle \beta \) )</span>: <span id="control_infection_rate_text"></span></label>
+                <input type="range" id="control_infection_rate" class="form-control-range" aria-describedby="control_infection_rate_help">
+                <small id="control_infection_rate_help" class="form-text text-muted" data-translate="simulation_infection_rate_help">
+                    Taxa que uma pessoa suscetível em contato com infectados se torne infectada.
+                </small>
+              </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                  <label for="control_infeccious_period" data-translate="infeccious_period">Período infeccioso (\(\displaystyle \nu ^{-1}\))</label>
+                  <input type="number" id="control_infeccious_period" class="form-control" aria-describedby="control_infeccious_period_help">
+                  <small id="control_infeccious_period_help" class="form-text text-muted" data-translate="control_infeccious_period_help">
+                   Período que o indivíduo leva para se recuperar.
+                  </small>
+                </div>
+                    <div class="col-sm-4">
+                      <label for="control_incubation_period" data-translate="incubation_period">Período de incubação (\(\displaystyle \epsilon ^{-1}\))</label>
+                      <input type="number" id="control_incubation_period" class="form-control" aria-describedby="control_incubation_period_help">
+                      <small id="control_incubation_period_help" class="form-text text-muted" data-translate="control_incubation_period_help">
+                       Período de incubação do patógeno no indivíduo.
+                      </small>
+                    </div>
+                <div class="col-sm-4">
+                    <h6><span >\( \displaystyle R_0\) = </span> <span id="output_R0_text"></span> </h6>
+                    <small id="control_output_R0" class="form-text text-muted" data-translate="output_R0_help">
+                        O \( \displaystyle R_0\) indica quão contagiosa é uma doença infecciosa.
+                        Por exemplo se \(\displaystyle R_0=5\) significa que cada
+                        pessoa infectada transmitirá a doença para cinco pessoas.
+                    </small>
+                </div>
+              </div>
+          </form>
+        </div>
+    </main>
+    <script src="./src/js/plugins/jquery-3.4.1.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+    <script src="./src/integrator/index.js"></script>
+    <script src="./src/ode_model_seir.js"></script>
+    <script src="./src/listeners_SEIR.js"></script>
+    <script src="./src/chart_SEIR.js"></script>
+</html>
